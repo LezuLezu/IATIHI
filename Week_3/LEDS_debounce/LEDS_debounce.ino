@@ -1,12 +1,17 @@
+// vars for hardware
 const int LED_blue = 4;
 const int LED_red = 5;
 const int LED_green = 6;
-#define BUTTON 7
+const int BUTTON = 7;
 
 // timer freqs in micro seconds
 const long BLUE_freq = 1000000;     // 1hz
 const long RED_freq = 2000000;    // 0.5 hz
 const long GREEN_freq = 4000000;  // 0.25hz
+
+// Button vars
+bool buttonInput;
+bool buttonState;
 int buttonCount = 0;
 
 class tmrMicros {
@@ -19,9 +24,6 @@ class tmrMicros {
     timeOn_ = timeOn; 
     unsigned long currentTime = micros(); 
     nextChangeTime = currentTime + timeOn; 
-    // if (nextChangeTime > currentTime) 
-    // overFlow = false; 
-    // else overFlow = true; }
   }
   boolean tmrActive() { 
     unsigned long currentTime = micros(); 
@@ -52,22 +54,20 @@ void setup() {
   digitalWrite(LED_blue, LOW);
   digitalWrite(LED_red, LOW);
   digitalWrite(LED_green, LOW);
-//  pinMode(4, OUTPUT); 
-//  digitalWrite(4, LOW); 
-//  pinMode(5, OUTPUT); 
-//  digitalWrite(5, LOW);
-//  pinMode(6, OUTPUT); 
-//  digitalWrite(6, LOW);
 
   Serial.begin(9600);
 }
 void loop() {
-  if(!digitalRead(BUTTON)){
-    delay(100);
-    if(!digitalRead(BUTTON)){
-      buttonCount += 1;   
+  buttonInput = !digitalRead(BUTTON);
+  if(buttonInput){
+    if(buttonState){
+      buttonState = false;
+      buttonCount += 1;
     }
+  }else if(!buttonState){
+    buttonState = true;
   }
+  
   Serial.println(buttonCount);
   if(buttonCount == 1){   // All LEDS
     if (! tmr1.tmrActive()){    //BLUE

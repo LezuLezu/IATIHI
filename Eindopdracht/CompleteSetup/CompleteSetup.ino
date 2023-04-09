@@ -15,12 +15,12 @@
 #define DIO_3 7
 
 // potmeters
-int potPins[] = {A0, A1, A2, A3, A6};
+int potPins[] = {A0, A1, A2, A3, A4};
 
 // Button for pit connection
-const int BUTTON = 5;
+const int BUTTON = 6;
 // LEDS
-const int LED_connection = 6;
+const int LED_connection = 5;
 
 //  ----------------------------------  Create objects   ---------------------------------- 
 // Create a display object of type TM1637Display
